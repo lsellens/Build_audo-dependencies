@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
     echo "   armv7l - (Linaro gnueabihf)"
     echo
     echo "   clean (clean the build environment)"
-    echo 'Example: ./build_dependencies armv7'
+    echo 'Example: ./build_dependencies armv7l'
     echo
     exit 1
 elif [ $1 == "clean" ]; then   
