@@ -10,7 +10,7 @@ if [ -z "$1" ]; then
     echo 'Example: ./build_dependencies armv7l'
     echo
     exit 1
-elif [ $1 == "clean" ]; then   
+elif [ $1 = "clean" ]; then   
     clear
     echo "#############################"
     echo "#  Cleaning previous Build  #"
