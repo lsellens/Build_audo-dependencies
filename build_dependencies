@@ -19,8 +19,8 @@ elif [ $1 = "clean" ]; then
     rm -Rfv ./code
     rm -Rfv ./output
     rm -Rfv ./toolchain
-    . ./config/uncrosscompile.sh
-    export -n CWD
+    . ./config/cleanupenv.sh
+    unset CWD
     exit 1
 else
     BUILD=$1
@@ -160,7 +160,7 @@ fi
 
 cd $CWD
 echo
-. $CWD/config/uncrosscompile.sh
+. $CWD/config/cleanupenv.sh
 sleep 2
 echo
 echo "####################"
