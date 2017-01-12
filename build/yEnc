@@ -11,6 +11,9 @@ echo ">>>   Get setuptools"
 sleep 3
 if [ ! -f $CWD/dl/setuptools-1.1.tar.gz ]; then
     wget -O $CWD/dl/setuptools-1.1.tar.gz https://pypi.python.org/packages/source/s/setuptools/setuptools-1.1.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/setuptools-1.1.tar.gz 
 touch $CWD/code/.setuptools
@@ -31,6 +34,9 @@ echo ">>>   MAKE yEnc"
 sleep 3
 if [ ! -f $CWD/dl/yenc-0.4.0.tar.gz ]; then
     wget -O $CWD/dl/yenc-0.4.0.tar.gz http://www.golug.it/pub/yenc/yenc-0.4.0.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading yenc source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/yenc-0.4.0.tar.gz
 cd yenc-0.4.0/

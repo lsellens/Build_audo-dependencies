@@ -11,6 +11,9 @@ echo ">>>   Get ConfigObj"
 sleep 3
 if [ ! -f $CWD/dl/configobj-4.7.2.zip ]; then
     wget -O $CWD/dl/configobj-4.7.2.zip www.voidspace.org.uk/downloads/configobj-4.7.2.zip
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading configobj source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 unzip -o $CWD/dl/configobj-4.7.2.zip -d $CWD/code/configobj
 cp -avr $CWD/code/configobj/configobj-4.7.2/configobj.py $CWD/code/overlay/lib/

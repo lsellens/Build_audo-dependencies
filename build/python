@@ -12,6 +12,9 @@ echo ">>>   MAKE zlib"
 sleep 3
 if [ ! -f ../dl/zlib-1.2.8.tar.gz ]; then
     wget -O ../dl/zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading zlib source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/zlib-1.2.8.tar.gz
 cd zlib-1.2.8/
@@ -26,6 +29,9 @@ echo ">>>   MAKE bzip"
 sleep 3
 if [ ! -f ../dl/bzip2-1.0.6.tar.gz ]; then
     wget -P ../dl/ http://bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading bzip source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/bzip2-1.0.6.tar.gz
 cd bzip2-1.0.6/
@@ -42,6 +48,9 @@ echo ">>>   MAKE openssl"
 sleep 3
 if [ ! -f ../dl/openssl-1.0.1e.tar.gz ]; then
     wget -O ../dl/openssl-1.0.1e.tar.gz http://www.openssl.org/source/openssl-1.0.1e.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading openssl source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/openssl-1.0.1e.tar.gz
 cd openssl-1.0.1e/
@@ -56,6 +65,9 @@ echo ">>>   MAKE ncurses"
 sleep 3
 if [ ! -f ../dl/ncurses-5.9.tar.gz ]; then
     wget -O ../dl/ncurses-5.9.tar.gz http://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading ncurses source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/ncurses-5.9.tar.gz
 cd ncurses-5.9/
@@ -70,6 +82,9 @@ echo ">>>   MAKE sqlite"
 sleep 3
 if [ ! -f ../dl/sqlite-autoconf-3080000.tar.gz ]; then
     wget -O ../dl/sqlite-autoconf-3080000.tar.gz http://sqlite.org/2013/sqlite-autoconf-3080000.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading sqlite source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/sqlite-autoconf-3080000.tar.gz
 cd sqlite-autoconf-3080000/
@@ -84,6 +99,9 @@ echo ">>>   MAKE libffi"
 sleep 3
 if [ ! -f ../dl/libffi-3.0.13.tar.gz ]; then
     wget -O ../dl/libffi-3.0.13.tar.gz ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading libffi source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/libffi-3.0.13.tar.gz
 cd libffi-3.0.13/
@@ -98,6 +116,9 @@ echo ">>>   MAKE Python"
 sleep 3
 if [ ! -f ../dl/Python-2.7.5.tgz ]; then
     wget -O ../dl/Python-2.7.5.tgz http://python.org/ftp/python/2.7.5/Python-2.7.5.tgz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading Python source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf ../dl/Python-2.7.5.tgz
 cp -r Python-2.7.5 Python-2.7.5-native

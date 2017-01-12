@@ -11,6 +11,9 @@ echo ">>>   MAKE zlib"
 sleep 3
 if [ ! -f $CWD/dl/zlib-1.2.8.tar.gz ]; then
     wget -O $CWD/dl/zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading zlib source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/zlib-1.2.8.tar.gz
 cd zlib-1.2.8/
@@ -26,6 +29,9 @@ echo ">>>   MAKE libxml"
 sleep 3
 if [ ! -f $CWD/dl/libxml2-2.9.1.tar.gz ]; then
     wget -O $CWD/dl/libxml2-2.9.1.tar.gz ftp://xmlsoft.org/libxml2/libxml2-2.9.1.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading libxml2 source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/libxml2-2.9.1.tar.gz
 cd libxml2-2.9.1/
@@ -41,6 +47,9 @@ echo ">>>   MAKE libxslt"
 sleep 3
 if [ ! -f $CWD/dl/libxslt-1.1.28.tar.gz ]; then
     wget -O $CWD/dl/libxslt-1.1.28.tar.gz ftp://xmlsoft.org/libxml2/libxslt-1.1.28.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading libxslt source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/libxslt-1.1.28.tar.gz 
 cd libxslt-1.1.28/
@@ -56,6 +65,9 @@ echo ">>>   Get setuptools"
 sleep 3
 if [ ! -f $CWD/dl/setuptools-1.1.tar.gz ]; then
     wget -O $CWD/dl/setuptools-1.1.tar.gz https://pypi.python.org/packages/source/s/setuptools/setuptools-1.1.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/setuptools-1.1.tar.gz 
 touch $CWD/code/.setuptools
@@ -76,6 +88,9 @@ echo ">>>   MAKE lxml"
 sleep 3
 if [ ! -f $CWD/dl/lxml-3.2.3.tar.gz ]; then
     wget -O $CWD/dl/lxml-3.2.3.tar.gz https://pypi.python.org/packages/source/l/lxml/lxml-3.2.3.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading lxml source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/lxml-3.2.3.tar.gz
 cd lxml-3.2.3/

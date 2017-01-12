@@ -11,6 +11,9 @@ echo ">>>   MAKE zlib"
 sleep 3
 if [ ! -f $CWD/dl/zlib-1.2.8.tar.gz ]; then
     wget -O $CWD/dl/zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading zlib source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/zlib-1.2.8.tar.gz
 cd zlib-1.2.8/
@@ -26,6 +29,9 @@ echo ">>>   MAKE openssl"
 sleep 3
 if [ ! -f $CWD/dl/openssl-1.0.1e.tar.gz ]; then
     wget -O $CWD/dl/openssl-1.0.1e.tar.gz http://www.openssl.org/source/openssl-1.0.1e.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading openssl source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/openssl-1.0.1e.tar.gz
 cd openssl-1.0.1e/
@@ -41,6 +47,9 @@ echo ">>>   Get setuptools"
 sleep 3
 if [ ! -f $CWD/dl/setuptools-1.1.tar.gz ]; then
     wget -O $CWD/dl/setuptools-1.1.tar.gz https://pypi.python.org/packages/source/s/setuptools/setuptools-1.1.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/setuptools-1.1.tar.gz 
 touch $CWD/code/.setuptools
@@ -61,6 +70,9 @@ echo ">>>   MAKE pyOpenSSL"
 sleep 3
 if [ ! -f $CWD/dl/pyOpenSSL-0.13.tar.gz ]; then
     wget -O $CWD/dl/pyOpenSSL-0.13.tar.gz http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-0.13.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading pyOpenSSL source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/pyOpenSSL-0.13.tar.gz 
 cd pyOpenSSL-0.13/

@@ -9,6 +9,9 @@ echo ">>>   MAKE unrar"
 sleep 3
 if [ ! -f $CWD/dl/unrarsrc-5.0.12.tar.gz ]; then
     wget -O $CWD/dl/unrarsrc-5.0.12.tar.gz http://www.rarlab.com/rar/unrarsrc-5.0.12.tar.gz
+    if [ "$?" -ne "0" ]; then
+      echo "error downloading unrar source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 fi
 tar zxf $CWD/dl/unrarsrc-5.0.12.tar.gz
 cd unrar/
