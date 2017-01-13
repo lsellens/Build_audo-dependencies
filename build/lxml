@@ -6,22 +6,22 @@ export DEST=$OUTPUTDIR/python2
 export CFLAGS="$CFLAGS -Os -fPIC -ffunction-sections -fdata-sections"
 export LDFLAGS="$LDFLAGS -Wl,--gc-sections"
 
-if [ ! -f $CWD/code/.zlib-1.2.8 ]; then
+if [ ! -f $CWD/code/.zlib-1.2.10 ]; then
 echo ">>>   MAKE zlib"
 sleep 3
-if [ ! -f $CWD/dl/zlib-1.2.8.tar.gz ]; then
-    wget -O $CWD/dl/zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+if [ ! -f $CWD/dl/zlib-1.2.10.tar.gz ]; then
+    wget -O $CWD/dl/zlib-1.2.10.tar.gz http://zlib.net/zlib-1.2.10.tar.gz
     if [ "$?" -ne "0" ]; then
       echo "error downloading zlib source";. $CWD/config/cleanupenv.sh;exit 1
     fi
 fi
-tar zxf $CWD/dl/zlib-1.2.8.tar.gz
-cd zlib-1.2.8/
+tar zxf $CWD/dl/zlib-1.2.10.tar.gz
+cd zlib-1.2.10/
 ./configure --prefix=$DEST --static
 make clean && make
 ZLIB=`pwd`
 cd ..
-touch $CWD/code/.zlib-1.2.8
+touch $CWD/code/.zlib-1.2.10
 fi
 
 if [ ! -f $CWD/code/.libxml2-2.9.1 ]; then

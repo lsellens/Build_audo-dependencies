@@ -10,14 +10,14 @@ export LDFLAGS="$LDFLAGS -Wl,--gc-sections"
 if [ ! -f $CWD/code/.makezlib ]; then
 echo ">>>   MAKE zlib"
 sleep 3
-if [ ! -f ../dl/zlib-1.2.8.tar.gz ]; then
-    wget -O ../dl/zlib-1.2.8.tar.gz http://zlib.net/zlib-1.2.8.tar.gz
+if [ ! -f ../dl/zlib-1.2.10.tar.gz ]; then
+    wget -O ../dl/zlib-1.2.10.tar.gz http://zlib.net/zlib-1.2.10.tar.gz
     if [ "$?" -ne "0" ]; then
       echo "error downloading zlib source";. $CWD/config/cleanupenv.sh;exit 1
     fi
 fi
-tar zxf ../dl/zlib-1.2.8.tar.gz
-cd zlib-1.2.8/
+tar zxf ../dl/zlib-1.2.10.tar.gz
+cd zlib-1.2.10/
 ./configure --prefix=$DEPS --static
 make clean && make && make install
 cd ..
@@ -128,7 +128,7 @@ fi
 if [ ! -f $CWD/code/.makePython-native ]; then
 echo ">>>   MAKE Python-native"
 sleep 3
-. $CWD/config/uncrosscompile.sh
+. $CWD/config/cleanupenv.sh
 cd Python-2.7.5-native/
 ./configure
 make clean && make
