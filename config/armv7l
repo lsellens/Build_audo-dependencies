@@ -17,15 +17,18 @@ export OUTPUTDIR=$CWD/output
 
 ### Download and install toolchain
 if [ ! -f $CWD/toolchain/.arm-linux-gnueabihf ]; then
-if [ ! -f $CWD/dl/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz ]; then
-    wget -P $CWD/dl/ https://releases.linaro.org/components/toolchain/binaries/latest/armeb-linux-gnueabihf/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz
-    if [ "$?" -ne "0" ]; then
-      echo "error downloading source: $1";. $CWD/config/cleanupenv.sh;exit 1
+    if [ ! -f $CWD/dl/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz ]; then
+        wget -P $CWD/dl/ https://releases.linaro.org/components/toolchain/binaries/latest/armeb-linux-gnueabihf/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz
+        if [ "$?" -ne "0" ]; then
+            echo "error downloading source: $1";. $CWD/config/cleanupenv.sh;exit 1
+        fi
     fi
-fi
-tar -vxf $CWD/dl/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz -C $CWD/toolchain --strip-components=1
+    tar -vxf $CWD/dl/gcc-linaro-6.2.1-2016.11-x86_64_armeb-linux-gnueabihf.tar.xz -C $CWD/toolchain --strip-components=1
+    if [ "$?" -ne "0" ]; then
+        echo "error unpacking source: $1";. $CWD/config/cleanupenv.sh;exit 1
+    fi
 
-touch $CWD/toolchain/.arm-linux-gnueabihf
+    touch $CWD/toolchain/.arm-linux-gnueabihf
 fi
 
 echo
