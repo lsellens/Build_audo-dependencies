@@ -18,5 +18,8 @@ if [ ! -f $CWD/code/.unrar ]; then
     make clean
     make CXX=$CXX CXXFLAGS="$CFLAGS -Os -fPIC -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" STRIP=$STRIP LDFLAGS="-pthread"
     make install DESTDIR=$DEST
+    if [ "$?" -ne "0" ]; then
+        echo "error building unrar";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     touch $CWD/code/.unrar
 fi

@@ -21,6 +21,9 @@ if [ ! -f $CWD/code/.zlib-1.2.10 ]; then
     cd zlib-1.2.10/
     ./configure --prefix=$DEST --static
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building zlib";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     ZLIB=`pwd`
     cd ..
     touch $CWD/code/.zlib-1.2.10
@@ -38,6 +41,9 @@ if [ ! -f $CWD/code/.libxml2-2.9.1 ]; then
     cd libxml2-2.9.1/
     ./configure --host=$CHOST --prefix=$DEST --with-zlib --without-python --disable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building libxml2";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     LIBXML=`pwd`
     cd ..
     touch $CWD/code/.libxml2-2.9.1
@@ -55,6 +61,9 @@ if [ ! -f $CWD/code/.libxslt-1.1.28 ]; then
     cd libxslt-1.1.28/
     ./configure --host=$CHOST --prefix=$DEST --without-python --with-libxml-src=$LIBXML --disable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building libxslt";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     LIBXSLT=`pwd`
     cd ..
     touch $CWD/code/.libxslt-1.1.28

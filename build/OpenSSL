@@ -18,6 +18,9 @@ if [ ! -f $CWD/code/.zlib-1.2.10 ]; then
     cd zlib-1.2.10/
     ./configure --prefix=$DEST --static
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building zlib";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     ZLIB=`pwd`
     cd ..
     touch $CWD/code/.zlib-1.2.10
@@ -35,6 +38,9 @@ if [ ! -f $CWD/code/.openssl-1.0.1e ]; then
     cd openssl-1.0.1e/
     ./Configure --prefix=$DEST --openssldir=$DEST/etc/ssl --with-zlib-include=$ZLIB --with-zlib-lib=$ZLIB no-shared no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
     make -j1 clean && make -j1
+    if [ "$?" -ne "0" ]; then
+        echo "error building openssl";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     OPENSSL=`pwd`
     cd ..
     touch $CWD/code/.openssl-1.0.1e

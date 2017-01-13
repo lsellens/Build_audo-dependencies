@@ -19,6 +19,9 @@ if [ ! -f $CWD/code/.makezlib ]; then
     cd zlib-1.2.10/
     ./configure --prefix=$DEPS --static
     make clean && make && make install
+    if [ "$?" -ne "0" ]; then
+        echo "error building zlib";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makezlib
 fi
@@ -37,6 +40,9 @@ if [ ! -f $CWD/code/.makebzip ]; then
     make clean
     make CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="$CFLAGS -Wall -D_FILE_OFFSET_BITS=64"
     make install PREFIX=$DEPS
+    if [ "$?" -ne "0" ]; then
+        echo "error building bzip";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makebzip
 fi
@@ -53,6 +59,9 @@ if [ ! -f $CWD/code/.makeopenssl ]; then
     cd openssl-1.0.1e/
     ./Configure --prefix=$DEPS --openssldir=$DEST/etc/ssl --with-zlib-include=$DEPS/include --with-zlib-lib=$DEPS/lib no-shared no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
     make -j1 clean && make -j1 && make -j1 install_sw
+    if [ "$?" -ne "0" ]; then
+        echo "error building openssl";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makeopenssl
 fi
@@ -69,6 +78,9 @@ if [ ! -f $CWD/code/.makencurses ]; then
     cd ncurses-5.9/
     ./configure --host=$CHOST --prefix=$DEPS --without-shared
     make clean && make && make install
+    if [ "$?" -ne "0" ]; then
+        echo "error building ncurses";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makencurses
 fi
@@ -85,6 +97,9 @@ if [ ! -f $CWD/code/.makesqlite ]; then
     cd sqlite-autoconf-3080000/
     ./configure --host=$CHOST --prefix=$DEPS --disable-shared
     make clean && make && make install
+    if [ "$?" -ne "0" ]; then
+        echo "error building sqlite";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makesqlite
 fi
@@ -101,6 +116,9 @@ if [ ! -f $CWD/code/.makelibffi ]; then
     cd libffi-3.0.13/
     ./configure --host=$CHOST --prefix=$DEPS --disable-shared
     make clean && make && make install
+    if [ "$?" -ne "0" ]; then
+        echo "error building libffi";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.makelibffi
 fi
@@ -124,6 +142,9 @@ if [ ! -f $CWD/code/.makePython-native ]; then
     cd Python-2.7.5-native/
     ./configure
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building python-native";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd $CWD
     touch $CWD/code/.makePython-native
 fi
@@ -136,13 +157,19 @@ if [ ! -f $CWD/code/.Python-host ]; then
     cp ../Python-2.7.5-native/python hostpython
     echo ">>>   Patch Python"
     patch setup.py $CWD/build/patches/setup.py.patch
+    if [ "$?" -ne "0" ]; then
+        echo "error patching python source";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
     export PKG_CONFIG_LIBDIR=$DEPS/lib/pkgconfig
     ./configure --host=$CHOST --build=i686 --prefix=$DEST --enable-shared --with-system-ffi PYTHON_FOR_BUILD="$CWD/code/Python-2.7.5/hostpython" CPPFLAGS="-I$DEPS/include -I$DEPS/include/ncurses -I$TOOLCHAIN/$CHOST/libc/usr/include" LDFLAGS="$LDFLAGS -L$DEPS/lib -L$TOOLCHAIN/$CHOST/libc/lib -Wl,-rpath,$DEST/lib" ac_cv_have_long_long_format=yes ac_cv_buggy_getaddrinfo=no ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no
     make clean && make
+    if [ "$?" -ne "0" ]; then
+        echo "error building python-host";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cp ../Python-2.7.5-native/Parser/pgen ./Parser/pgen
     echo
-    echo ">>>   Hocking up the Python Cross-compile environment"
+    echo ">>>   Hacking up the Python Cross-compile environment"
     echo "       (You may see some errors, this is normal...)"
     echo
     make > ../Python_Cross-compile
