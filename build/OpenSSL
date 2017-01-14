@@ -36,7 +36,7 @@ if [ ! -f $CWD/code/.openssl-1.0.1e ]; then
     fi
     tar zxf $CWD/dl/openssl-1.0.1e.tar.gz
     cd openssl-1.0.1e/
-    ./Configure --prefix=$DEST --openssldir=$DEST/etc/ssl --with-zlib-include=$ZLIB --with-zlib-lib=$ZLIB no-shared no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
+    ./Configure --prefix=$DEST --openssldir=$DEST/etc/ssl --with-zlib-include=$ZLIB --with-zlib-lib=$ZLIB no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
     make -j1 clean && make -j1
     if [ "$?" -ne "0" ]; then
         echo "error building openssl";. $CWD/config/cleanupenv.sh;exit 1
@@ -48,22 +48,22 @@ fi
 
 if [ ! -f $CWD/code/.setuptools ]; then
     echo ">>>   Get setuptools"
-    if [ ! -f $CWD/dl/setuptools-1.1.tar.gz ]; then
-        wget -O $CWD/dl/setuptools-1.1.tar.gz https://pypi.python.org/packages/source/s/setuptools/setuptools-1.1.tar.gz
+    if [ ! -f $CWD/dl/setuptools-32.3.1.zip ]; then
+        wget -O $CWD/dl/setuptools-32.3.1.zip https://pypi.python.org/packages/e8/68/f968ebc015c7e0021e76b60b8cfd29f9ffbae4b3b58d96ad20045a99562e/setuptools-32.3.1.zip
         if [ "$?" -ne "0" ]; then
             echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
-    tar zxf $CWD/dl/setuptools-1.1.tar.gz 
+    unzip $CWD/dl/setuptools-32.3.1.zip
     touch $CWD/code/.setuptools
 fi
 
 if [ ! -f $CWD/code/.lib.linux2-arm-2.7 ]; then
     echo ">>>   Link to Python Build environment"
-    pushd $CWD/code/Python-2.7.5/build
+    cd $CWD/code/Python-2.7.5/build
     mv lib.linux2-arm-2.7 lib.linux2-arm-2.7.orig
     ln -s ../../Python-2.7.5-native/build/lib.linux-i686-2.7 lib.linux2-arm-2.7
-    popd
+    cd $CWD/code
     touch $CWD/code/.lib.linux2-arm-2.7
 fi
 
@@ -80,18 +80,19 @@ if [ ! -f $CWD/code/.OpenSSL ]; then
     export LDSHARED="$CC -pthread -shared"
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
     sed -i -e "s|from distutils.core import Extension, setup|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
-    PYTHONPATH=../setuptools-1.1 ../Python-2.7.5/hostpython setup.py build_ext -I$OPENSSL/include -L$OPENSSL
+    PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py build_ext -I$OPENSSL/include -L$OPENSSL
     $STRIP build/lib.linux-armv7l-2.7/OpenSSL/*.so
-    PYTHONPATH=../setuptools-1.1 ../Python-2.7.5/hostpython setup.py bdist_egg
+    PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py bdist_egg
+    cd ..
     touch $CWD/code/.OpenSSL
 fi
 
 if [ -f $CWD/code/.lib.linux2-arm-2.7 ]; then
     echo ">>>   Unlink Python Build environment"
-    pushd $CWD/code/Python-2.7.5/build
+    cd $CWD/code/Python-2.7.5/build
     rm lib.linux2-arm-2.7
     mv lib.linux2-arm-2.7.orig lib.linux2-arm-2.7
-    popd
+    cd $CWD/code
     rm $CWD/code/.lib.linux2-arm-2.7
 fi
 

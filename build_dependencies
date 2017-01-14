@@ -69,7 +69,7 @@ if [ ! -f $CWD/code/.lxml ]; then
         . build/python
     fi
     . build/lxml
-    cp -avr $CWD/code/lxml-3.2.3/build/lib.linux-armv7l-2.7/lxml $CWD/output/lib/
+    cp -avr $CWD/code/lxml-3.7.2/build/lib.linux-armv7l-2.7/lxml $CWD/output/lib/
     mv -vf $CWD/output/lib/lxml/etree.so $CWD/output/lib/multiarch/etree.so.$BUILD
     mv -vf $CWD/output/lib/lxml/objectify.so $CWD/output/lib/multiarch/objectify.so.$BUILD
 fi

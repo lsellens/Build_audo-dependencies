@@ -29,5 +29,7 @@ if [ ! -f $CWD/code/.par2cmdline ]; then
         echo "error building par2";. $CWD/config/cleanupenv.sh;exit 1
     fi
     $STRIP $DEST/bin/*
+    cd ..
     touch $CWD/code/.par2cmdline
 fi
+cd $CWD

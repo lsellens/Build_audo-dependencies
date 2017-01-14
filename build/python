@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd ./code/
+cd $CWD/code
 
 export DEST=$OUTPUTDIR/python2
 export DEPS=$OUTPUTDIR/python2deps
@@ -68,14 +68,14 @@ fi
 
 if [ ! -f $CWD/code/.makencurses ]; then
     echo ">>>   MAKE ncurses"
-    if [ ! -f ../dl/ncurses-5.9.tar.gz ]; then
-        wget -O ../dl/ncurses-5.9.tar.gz http://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
+    if [ ! -f ../dl/ncurses-6.0.tar.gz ]; then
+        wget -O ../dl/ncurses-6.0.tar.gz http://ftp.gnu.org/gnu/ncurses/ncurses-6.0.tar.gz
         if [ "$?" -ne "0" ]; then
             echo "error downloading ncurses source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
-    tar zxf ../dl/ncurses-5.9.tar.gz
-    cd ncurses-5.9/
+    tar zxf ../dl/ncurses-6.0.tar.gz
+    cd ncurses-6.0/
     ./configure --host=$CHOST --prefix=$DEPS --without-shared
     make clean && make && make install
     if [ "$?" -ne "0" ]; then
@@ -106,14 +106,14 @@ fi
 
 if [ ! -f $CWD/code/.makelibffi ]; then
     echo ">>>   MAKE libffi"
-    if [ ! -f ../dl/libffi-3.0.13.tar.gz ]; then
-        wget -O ../dl/libffi-3.0.13.tar.gz ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz
+    if [ ! -f ../dl/libffi-3.2.1.tar.gz ]; then
+        wget -O ../dl/libffi-3.2.1.tar.gz ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz
         if [ "$?" -ne "0" ]; then
             echo "error downloading libffi source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
-    tar zxf ../dl/libffi-3.0.13.tar.gz
-    cd libffi-3.0.13/
+    tar zxf ../dl/libffi-3.2.1.tar.gz
+    cd libffi-3.2.1/
     ./configure --host=$CHOST --prefix=$DEPS --disable-shared
     make clean && make && make install
     if [ "$?" -ne "0" ]; then
@@ -145,14 +145,13 @@ if [ ! -f $CWD/code/.makePython-native ]; then
     if [ "$?" -ne "0" ]; then
         echo "error building python-native";. $CWD/config/cleanupenv.sh;exit 1
     fi
-    cd $CWD
+    cd ..
     touch $CWD/code/.makePython-native
 fi
 
 if [ ! -f $CWD/code/.Python-host ]; then
     echo ">>>   Copy host Python"
     . $CWD/config/armv7l
-    cd ./code
     cd Python-2.7.5/
     cp ../Python-2.7.5-native/python hostpython
     echo ">>>   Patch Python"
@@ -164,9 +163,6 @@ if [ ! -f $CWD/code/.Python-host ]; then
     export PKG_CONFIG_LIBDIR=$DEPS/lib/pkgconfig
     ./configure --host=$CHOST --build=i686 --prefix=$DEST --enable-shared --with-system-ffi PYTHON_FOR_BUILD="$CWD/code/Python-2.7.5/hostpython" CPPFLAGS="-I$DEPS/include -I$DEPS/include/ncurses -I$TOOLCHAIN/$CHOST/libc/usr/include" LDFLAGS="$LDFLAGS -L$DEPS/lib -L$TOOLCHAIN/$CHOST/libc/lib -Wl,-rpath,$DEST/lib" ac_cv_have_long_long_format=yes ac_cv_buggy_getaddrinfo=no ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no
     make clean && make
-    if [ "$?" -ne "0" ]; then
-        echo "error building python-host";. $CWD/config/cleanupenv.sh;exit 1
-    fi
     cp ../Python-2.7.5-native/Parser/pgen ./Parser/pgen
     echo
     echo ">>>   Hacking up the Python Cross-compile environment"
@@ -181,8 +177,10 @@ if [ ! -f $CWD/code/.Python-host ]; then
     $STRIP -s -R .comment -R .note -R .note.ABI-tag $DEST/lib/libpython2.7.so.1.0
     chmod u-w $DEST/lib/libpython2.7.so.1.0
     $STRIP -s -R .comment -R .note -R .note.ABI-tag $DEST/lib/python2.7/lib-dynload/*.so
+    cd ..
     touch $CWD/code/.Python-host
 fi
+cd $CWD
 echo
 echo "##########################################"
 echo "+++   Python build environment ready   +++"
