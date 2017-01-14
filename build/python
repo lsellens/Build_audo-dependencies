@@ -161,7 +161,7 @@ if [ ! -f $CWD/code/.Python-host ]; then
     fi
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
     export PKG_CONFIG_LIBDIR=$DEPS/lib/pkgconfig
-    ./configure --host=$CHOST --build=i686 --prefix=$DEST --enable-shared --with-system-ffi PYTHON_FOR_BUILD="$CWD/code/Python-2.7.5/hostpython" CPPFLAGS="-I$DEPS/include -I$DEPS/include/ncurses -I$TOOLCHAIN/$CHOST/libc/usr/include" LDFLAGS="$LDFLAGS -L$DEPS/lib -L$TOOLCHAIN/$CHOST/libc/lib -Wl,-rpath,$DEST/lib" ac_cv_have_long_long_format=yes ac_cv_buggy_getaddrinfo=no ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no
+    ./configure --host=$CHOST --build=x86_64 --prefix=$DEST --enable-shared --with-system-ffi PYTHON_FOR_BUILD="$CWD/code/Python-2.7.5/hostpython" CPPFLAGS="-I$DEPS/include -I$DEPS/include/ncurses -I$TOOLCHAIN/$CHOST/libc/usr/include" LDFLAGS="$LDFLAGS -L$DEPS/lib -L$TOOLCHAIN/$CHOST/libc/lib -Wl,-rpath,$DEST/lib" ac_cv_have_long_long_format=yes ac_cv_buggy_getaddrinfo=no ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no
     make clean && make
     cp ../Python-2.7.5-native/Parser/pgen ./Parser/pgen
     echo

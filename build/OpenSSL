@@ -62,7 +62,7 @@ if [ ! -f $CWD/code/.lib.linux2-arm-2.7 ]; then
     echo ">>>   Link to Python Build environment"
     cd $CWD/code/Python-2.7.5/build
     mv lib.linux2-arm-2.7 lib.linux2-arm-2.7.orig
-    ln -s ../../Python-2.7.5-native/build/lib.linux-i686-2.7 lib.linux2-arm-2.7
+    ln -s ../../Python-2.7.5-native/build/lib.linux-x86_64-2.7 lib.linux2-arm-2.7
     cd $CWD/code
     touch $CWD/code/.lib.linux2-arm-2.7
 fi
