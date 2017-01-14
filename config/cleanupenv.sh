@@ -10,3 +10,4 @@ unset CXX
 unset AR
 unset RANLIB
 unset STRIP
+unset HOST_ARCH
