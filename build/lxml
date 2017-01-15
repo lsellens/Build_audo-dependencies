@@ -20,13 +20,15 @@ if [ ! -f $CWD/code/.zlib-1.2.10 ]; then
     fi
     cd zlib-1.2.10/
     ./configure --prefix=$DEST --static
-    make clean && make
+    make
     if [ "$?" -ne "0" ]; then
         echo "error building zlib";. $CWD/config/cleanupenv.sh;exit 1
     fi
     ZLIB=`pwd`
     cd ..
     touch $CWD/code/.zlib-1.2.10
+else
+    ZLIB=`pwd`/zlib-1.2.10
 fi
 
 if [ ! -f $CWD/code/.libxml2-2.9.4 ]; then
@@ -39,14 +41,16 @@ if [ ! -f $CWD/code/.libxml2-2.9.4 ]; then
     fi
     tar zxf $CWD/dl/libxml2-2.9.4.tar.gz
     cd libxml2-2.9.4/
-    ./configure --host=$CHOST --prefix=$DEST --with-zlib --without-python --disable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
-    make clean && make
+    ./configure --host=$CHOST --prefix=$DEST --with-zlib --without-python --enable-static --enable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building libxml2";. $CWD/config/cleanupenv.sh;exit 1
     fi
     LIBXML=`pwd`
     cd ..
     touch $CWD/code/.libxml2-2.9.4
+else
+    LIBXML=`pwd`/libxml2-2.9.4
 fi
 
 if [ ! -f $CWD/code/.libxslt-1.1.29 ]; then
@@ -59,11 +63,16 @@ if [ ! -f $CWD/code/.libxslt-1.1.29 ]; then
     fi
     tar zxf $CWD/dl/libxslt-1.1.29.tar.gz 
     cd libxslt-1.1.29/
-    ./configure --host=$CHOST --prefix=$DEST --without-python --with-libxml-src=$LIBXML --disable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
-    make clean && make
+    ./configure --host=$CHOST --prefix=$DEST --without-python --without-crypto --with-libxml-prefix=$DEST --enable-static --disable-shared CPPFLAGS="-I$ZLIB" LDFLAGS="$LDFLAGS -L$ZLIB"
+    make && make install
+    if [ "$?" -ne "0" ]; then
+        echo "error building libxslt";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     LIBXSLT=`pwd`
     cd ..
     touch $CWD/code/.libxslt-1.1.29
+else
+    LIBXSLT=`pwd`/libxslt-1.1.29
 fi
 
 if [ ! -f $CWD/code/.setuptools ]; then
@@ -82,7 +91,7 @@ if [ ! -f $CWD/code/.lib.linux2-arm-2.7 ]; then
     echo ">>>   Link to Python Build environment"
     cd $CWD/code/Python-2.7.5/build
     mv lib.linux2-arm-2.7 lib.linux2-arm-2.7.orig
-    ln -s ../../Python-2.7.5-native/build/lib.linux-$HOST_ARCH-2.7 lib.linux2-arm-2.7
+    ln -s ../../Python-2.7.5-native/build/lib.linux-${HOST_ARCH}-2.7 lib.linux2-arm-2.7
     cd $CWD/code
     touch $CWD/code/.lib.linux2-arm-2.7
 fi
@@ -99,9 +108,10 @@ if [ ! -f $CWD/code/.lxml ]; then
     cd lxml-3.7.2/
     export LDSHARED="$CC -pthread -shared"
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
-    PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py build_ext -I$LIBXML/include:$LIBXSLT:$ZLIB -L$LIBXML/.libs:$LIBXSLT/libxslt/.libs:$LIBXSLT/libexslt/.libs:$ZLIB -lrt
-    $STRIP build/lib.linux-armv7l-2.7/lxml/*.so
-    PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py bdist_egg
+    PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py build_ext --with-xslt-config=$DEST/bin/xslt-config -I$LIBXML/include:$LIBXSLT:$ZLIB -L$LIBXML/.libs:$LIBXSLT/libxslt/.libs:$LIBXSLT/libexslt/.libs:$ZLIB -lrt && $STRIP build/lib.linux-armv7l-2.7/lxml/*.so
+    if [ "$?" -ne "0" ]; then
+        echo "error building lxml";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ..
     touch $CWD/code/.lxml
 fi

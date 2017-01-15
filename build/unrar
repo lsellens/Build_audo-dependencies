@@ -15,9 +15,7 @@ if [ ! -f $CWD/code/.unrar ]; then
     tar zxf $CWD/dl/unrarsrc-5.4.5.tar.gz
     cd unrar/
     mv makefile Makefile
-    make clean
-    make CXX=$CXX CXXFLAGS="$CFLAGS -Os -fPIC -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" STRIP=$STRIP LDFLAGS="-pthread"
-    make install DESTDIR=$DEST
+    make CXX=$CXX CXXFLAGS="$CFLAGS -Os -fPIC -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE" STRIP=$STRIP LDFLAGS="-pthread" && make install DESTDIR=$DEST
     if [ "$?" -ne "0" ]; then
         echo "error building unrar";. $CWD/config/cleanupenv.sh;exit 1
     fi

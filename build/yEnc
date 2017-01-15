@@ -41,6 +41,9 @@ if [ ! -f $CWD/code/.yEnc ]; then
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
     sed -i -e "s|from distutils.core import setup, Extension|from setuptools import setup\nfrom distutils.core import Extension|g" setup.py
     PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython setup.py bdist_egg
+    if [ "$?" -ne "0" ]; then
+        echo "error building yenc";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     cd ../
     touch $CWD/code/.yEnc
 fi

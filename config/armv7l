@@ -20,7 +20,6 @@ export HOST_ARCH=`uname -m`
 if [ ! -f $CWD/toolchain/.arm-linux-gnueabihf ]; then
     if [ ! -f $CWD/dl/gcc-linaro-4.9-2016.02-${HOST_ARCH}_arm-linux-gnueabihf.tar.xz ]; then
         wget -P $CWD/dl/ https://releases.linaro.org/components/toolchain/binaries/4.9-2016.02/arm-linux-gnueabihf/gcc-linaro-4.9-2016.02-${HOST_ARCH}_arm-linux-gnueabihf.tar.xz
-
         if [ "$?" -ne "0" ]; then
             echo "error downloading source: $1";. $CWD/config/cleanupenv.sh;exit 1
         fi

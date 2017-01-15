@@ -18,7 +18,7 @@ if [ ! -f $CWD/code/.makezlib ]; then
     tar zxf ../dl/zlib-1.2.10.tar.gz
     cd zlib-1.2.10/
     ./configure --prefix=$DEPS --static
-    make clean && make && make install
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building zlib";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -37,9 +37,7 @@ if [ ! -f $CWD/code/.makebzip ]; then
     tar zxf ../dl/bzip2-1.0.6.tar.gz
     cd bzip2-1.0.6/
     sed -i -e "s/all: libbz2.a bzip2 bzip2recover test/all: libbz2.a bzip2 bzip2recover/" Makefile
-    make clean
-    make CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="$CFLAGS -Wall -D_FILE_OFFSET_BITS=64"
-    make install PREFIX=$DEPS
+    make CC=$CC AR=$AR RANLIB=$RANLIB CFLAGS="$CFLAGS -Wall -D_FILE_OFFSET_BITS=64" && make install PREFIX=$DEPS
     if [ "$?" -ne "0" ]; then
         echo "error building bzip";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -49,16 +47,16 @@ fi
 
 if [ ! -f $CWD/code/.makeopenssl ]; then
     echo ">>>   MAKE openssl"
-    if [ ! -f ../dl/openssl-1.0.2j.tar.gz ]; then
-        wget -O ../dl/openssl-1.0.2j.tar.gz http://www.openssl.org/source/openssl-1.0.2j.tar.gz
+    if [ ! -f ../dl/openssl-1.0.1e.tar.gz ]; then
+        wget -O ../dl/openssl-1.0.1e.tar.gz http://www.openssl.org/source/openssl-1.0.1e.tar.gz
         if [ "$?" -ne "0" ]; then
             echo "error downloading openssl source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
-    tar zxf ../dl/openssl-1.0.2j.tar.gz
-    cd openssl-1.0.2j/
-    ./Configure --prefix=$DEPS --openssldir=$DEST/etc/ssl --with-zlib-include=$DEPS/include --with-zlib-lib=$DEPS/lib no-shared no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
-    make -j1 clean && make -j1 && make -j1 install_sw
+    tar zxf ../dl/openssl-1.0.1e.tar.gz
+    cd openssl-1.0.1e/
+    ./Configure --prefix=$DEPS --openssldir=$DEST/etc/ssl --with-zlib-include=$DEPS/include --with-zlib-lib=$DEPS/lib no-zlib-dynamic threads linux-armv4 -DL_ENDIAN $CFLAGS $LDFLAGS
+    make -j1 && make -j1 install_sw
     if [ "$?" -ne "0" ]; then
         echo "error building openssl";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -77,7 +75,7 @@ if [ ! -f $CWD/code/.makencurses ]; then
     tar zxf ../dl/ncurses-6.0.tar.gz
     cd ncurses-6.0/
     ./configure --host=$CHOST --prefix=$DEPS --without-shared
-    make clean && make && make install
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building ncurses";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -87,16 +85,16 @@ fi
 
 if [ ! -f $CWD/code/.makesqlite ]; then
     echo ">>>   MAKE sqlite"
-    if [ ! -f ../dl/sqlite-autoconf-3160200.tar.gz ]; then
-        wget -O ../dl/sqlite-autoconf-3160200.tar.gz http://sqlite.org/2017/sqlite-autoconf-3160200.tar.gz
+    if [ ! -f ../dl/sqlite-autoconf-3080000.tar.gz ]; then
+        wget -O ../dl/sqlite-autoconf-3080000.tar.gz http://sqlite.org/2013/sqlite-autoconf-3080000.tar.gz
         if [ "$?" -ne "0" ]; then
             echo "error downloading sqlite source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
-    tar zxf ../dl/sqlite-autoconf-3160200.tar.gz
-    cd sqlite-autoconf-3160200/
+    tar zxf ../dl/sqlite-autoconf-3080000.tar.gz
+    cd sqlite-autoconf-3080000/
     ./configure --host=$CHOST --prefix=$DEPS --disable-shared
-    make clean && make && make install
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building sqlite";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -115,7 +113,7 @@ if [ ! -f $CWD/code/.makelibffi ]; then
     tar zxf ../dl/libffi-3.2.1.tar.gz
     cd libffi-3.2.1/
     ./configure --host=$CHOST --prefix=$DEPS --disable-shared
-    make clean && make && make install
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building libffi";. $CWD/config/cleanupenv.sh;exit 1
     fi
@@ -141,7 +139,7 @@ if [ ! -f $CWD/code/.makePython-native ]; then
     . $CWD/config/cleanupenv.sh
     cd Python-2.7.5-native/
     ./configure
-    make clean && make
+    make
     if [ "$?" -ne "0" ]; then
         echo "error building python-native";. $CWD/config/cleanupenv.sh;exit 1
     fi

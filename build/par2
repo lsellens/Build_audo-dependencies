@@ -24,7 +24,7 @@ if [ ! -f $CWD/code/.par2cmdline ]; then
         echo "error patching source";. $CWD/config/cleanupenv.sh;exit 1
     fi
     CFLAGS="$CFLAGS -O3" ./configure --host=$CHOST --prefix=$DEST
-    make clean && make && make install
+    make && make install
     if [ "$?" -ne "0" ]; then
         echo "error building par2";. $CWD/config/cleanupenv.sh;exit 1
     fi

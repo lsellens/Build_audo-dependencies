@@ -11,7 +11,7 @@ if [ ! -f $CWD/code/.setuptools ]; then
     if [ ! -f $CWD/dl/setuptools-32.3.1.zip ]; then
         wget -O $CWD/dl/setuptools-32.3.1.zip https://pypi.python.org/packages/e8/68/f968ebc015c7e0021e76b60b8cfd29f9ffbae4b3b58d96ad20045a99562e/setuptools-32.3.1.zip
         if [ "$?" -ne "0" ]; then
-                echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
+            echo "error downloading setuptools source";. $CWD/config/cleanupenv.sh;exit 1
         fi
     fi
     unzip $CWD/dl/setuptools-32.3.1.zip
@@ -40,6 +40,9 @@ if [ ! -f $CWD/code/.Cheetah ]; then
     export LDSHARED="$CC -pthread -shared"
     export _PYTHON_HOST_PLATFORM="linux-armv7l"
     PYTHONPATH=../setuptools-32.3.1 ../Python-2.7.5/hostpython ./setup.py bdist_egg
+    if [ "$?" -ne "0" ]; then
+        echo "error building Cheetah";. $CWD/config/cleanupenv.sh;exit 1
+    fi
     touch $CWD/code/.Cheetah
 fi
 
