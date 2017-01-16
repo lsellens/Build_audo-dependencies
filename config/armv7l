@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ### Set ARCH variables
-export DEVICE=ARMv7
+export DEVICE=ARMv7l
 export TOOLCHAIN=$CWD/toolchain
 export ARCH=armv7-a
 export PATH=$TOOLCHAIN/bin:$PATH
@@ -12,7 +12,6 @@ export CXX=$TOOLCHAIN/bin/arm-linux-gnueabihf-g++
 export AR=$TOOLCHAIN/bin/arm-linux-gnueabihf-ar
 export RANLIB=$TOOLCHAIN/bin/arm-linux-gnueabihf-ranlib
 export STRIP=$TOOLCHAIN/bin/arm-linux-gnueabihf-strip
-export DEVICEAPPS=$CWD/code/ARMv7/Shares/Apps
 export OUTPUTDIR=$CWD/output
 export HOST_ARCH=`uname -m`
 
